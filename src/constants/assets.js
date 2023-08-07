@@ -1,17 +1,12 @@
 export default [
-  // {
-  //   name: 'asset_name',
-  //   type: ['gltfModel', 'texture', 'cubeTexture', 'audio' ,'font', 'video'],
-  //   path: 'asset_path',
-  // },
   {
-    name: 'boxModel',
+    name: 'toonCharacterModel',
     type: 'gltfModel',
-    path: 'models/box.glb',
+    path: 'models/toonCharacterModel.gltf',
   },
   {
-    name: 'boxTexture',
+    name: 'toonCharacterTexture',
     type: 'texture',
-    path: 'textures/box_texture.png',
+    path: 'textures/toonCharacterTexture.png',
   },
 ];

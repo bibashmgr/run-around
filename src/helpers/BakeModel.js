@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export default class BakedModel {
+export default class BakeModel {
   constructor(model, texture, scale) {
     this.model = model;
     this.texture = texture;
@@ -12,11 +12,14 @@ export default class BakedModel {
       map: this.texture,
     });
 
+    if (scale) this.model.scene.scale.set(scale, scale, scale);
+
     this.model.scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         if (scale) child.scale.set(scale, scale, scale);
         child.material.map = this.texture;
         child.material = this.material;
+        child.castShadow = true;
       }
     });
 

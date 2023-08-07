@@ -2,10 +2,6 @@ import * as THREE from 'three';
 
 import Experience from '../Experience.js';
 
-// shaders
-import vertexShader from '../shaders/vertex_shader.glsl';
-import fragmentShader from '../shaders/fragment_shader.glsl';
-
 export default class Plane {
   constructor() {
     this.experience = new Experience();
@@ -16,16 +12,14 @@ export default class Plane {
   }
 
   setModel() {
-    this.geometry = new THREE.BoxGeometry(10, 10, 0.1, 100, 100);
-    this.material = new THREE.ShaderMaterial({
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
-      uniforms: {},
-      wireframe: false,
+    this.geometry = new THREE.PlaneGeometry(10, 10);
+    this.material = new THREE.MeshStandardMaterial({
       side: THREE.DoubleSide,
+      color: '#47A992',
     });
     this.model = new THREE.Mesh(this.geometry, this.material);
     this.model.rotation.x = Math.PI / 2;
+    this.model.receiveShadow = true;
     this.scene.add(this.model);
   }
 

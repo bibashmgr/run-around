@@ -21,15 +21,10 @@ export default class Environment {
         color: '#ffffff',
         intensity: 1,
       },
-      fog: {
-        color: '#000000',
-        intensity: 0.01,
-      },
     };
 
     this.setSunlight();
     this.setAmbientLight();
-    this.setFog();
   }
 
   setSunlight() {
@@ -56,14 +51,6 @@ export default class Environment {
       this.parameters.ambientlight.intensity
     );
     this.scene.add(this.ambientLight);
-  }
-
-  setFog() {
-    this.fog = new THREE.FogExp2(
-      this.parameters.fog.color,
-      this.parameters.fog.intensity
-    );
-    this.scene.fog = this.fog;
   }
 
   resize() {}
