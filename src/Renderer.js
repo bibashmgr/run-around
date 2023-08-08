@@ -21,11 +21,11 @@ export default class Renderer {
       alpha: true,
     });
 
+    this.webglRenderer.shadowMap.enabled = true;
+    this.webglRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.webglRenderer.outputColorSpace = THREE.SRGBColorSpace;
     this.webglRenderer.toneMapping = THREE.CineonToneMapping;
     this.webglRenderer.toneMappingExposure = 1.75;
-    this.webglRenderer.shadowMap.enabled = true;
-    this.webglRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.webglRenderer.setSize(this.sizes.width, this.sizes.height);
     this.webglRenderer.setPixelRatio(this.sizes.pixelRatio);
   }

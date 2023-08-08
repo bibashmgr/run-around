@@ -6,8 +6,9 @@ import Renderer from './Renderer.js';
 // utils
 import Debug from './utils/Debug.js';
 import Sizes from './utils/Sizes.js';
-import Mouse from './utils/Mouse.js';
 import Time from './utils/Time.js';
+import Mouse from './utils/Mouse.js';
+import Keys from './utils/Keys.js';
 import Resources from './utils/Resources.js';
 
 // config
@@ -32,6 +33,7 @@ export default class Experience {
     this.sizes = new Sizes();
     this.time = new Time();
     this.mouse = new Mouse();
+    this.keys = new Keys();
     this.scene = new THREE.Scene();
     this.resources = new Resources(assets);
     this.camera = new Camera();
@@ -54,6 +56,9 @@ export default class Experience {
   }
 
   update() {
+    if (this.debug.active) {
+      this.debug.update();
+    }
     this.camera.update();
     this.renderer.update();
     this.world.update();

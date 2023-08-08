@@ -17,6 +17,7 @@ export default class Mouse extends EventEmitter {
       x: 0,
       y: 0,
     };
+    this.time = 0;
 
     window.addEventListener('mousemove', (event) => {
       this.cursorPosition.x = (event.clientX / this.sizes.width) * 2 - 1;

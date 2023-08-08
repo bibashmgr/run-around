@@ -1,3 +1,6 @@
+import { Octree } from 'three/addons/math/Octree.js';
+import { OctreeHelper } from 'three/addons/helpers/OctreeHelper.js';
+
 import Experience from '../Experience.js';
 
 // scenes
@@ -10,6 +13,12 @@ export default class World {
     this.experience = new Experience();
     this.scene = this.experience.scene;
     this.resources = this.experience.resources;
+
+    this.parameters = {
+      gravity: 30,
+    };
+
+    this.worldOctree = new Octree();
 
     this.resources.on('ready', () => {
       this.environment = new Environment();

@@ -8,47 +8,53 @@ export default class Environment {
     this.scene = this.experience.scene;
 
     this.parameters = {
-      sunlight: {
+      directionalLight: {
         color: '#ffffff',
-        intensity: 1,
+        intensity: 2,
         position: {
-          x: 1,
-          y: 5,
-          z: 0,
+          x: -5,
+          y: 25,
+          z: -1,
         },
       },
-      ambientlight: {
+      ambientLight: {
         color: '#ffffff',
         intensity: 1,
       },
     };
 
-    this.setSunlight();
+    this.setDirectionalLight();
     this.setAmbientLight();
   }
 
-  setSunlight() {
-    this.sunLight = new THREE.DirectionalLight(
-      this.parameters.sunlight.color,
-      this.parameters.sunlight.intensity
+  setDirectionalLight() {
+    this.directionalLight = new THREE.DirectionalLight(
+      this.parameters.directionalLight.color,
+      this.parameters.directionalLight.intensity
     );
-    this.sunLight.castShadow = true;
-    this.sunLight.shadow.camera.far = 20;
-    this.sunLight.shadow.mapSize.set(1024, 1024);
-    this.sunLight.shadow.normalBias = 0.05;
+    this.directionalLight.castShadow = true;
+    this.directionalLight.shadow.camera.near = 0.01;
+    this.directionalLight.shadow.camera.far = 500;
+    this.directionalLight.shadow.camera.right = 30;
+    this.directionalLight.shadow.camera.left = -30;
+    this.directionalLight.shadow.camera.top = 30;
+    this.directionalLight.shadow.camera.bottom = -30;
+    this.directionalLight.shadow.mapSize.set(1024, 1024);
+    this.directionalLight.shadow.normalBias = -0.005;
+    this.directionalLight.shadow.radius = 4;
 
-    this.sunLight.position.set(
-      this.parameters.sunlight.position.x,
-      this.parameters.sunlight.position.y,
-      this.parameters.sunlight.position.z
+    this.directionalLight.position.set(
+      this.parameters.directionalLight.position.x,
+      this.parameters.directionalLight.position.y,
+      this.parameters.directionalLight.position.z
     );
-    this.scene.add(this.sunLight);
+    this.scene.add(this.directionalLight);
   }
 
   setAmbientLight() {
     this.ambientLight = new THREE.AmbientLight(
-      this.parameters.ambientlight.color,
-      this.parameters.ambientlight.intensity
+      this.parameters.ambientLight.color,
+      this.parameters.ambientLight.intensity
     );
     this.scene.add(this.ambientLight);
   }
