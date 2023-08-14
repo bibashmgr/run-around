@@ -12,7 +12,7 @@ export default class Plane {
   }
 
   setModel() {
-    this.geometry = new THREE.BoxGeometry(10, 10, 0.1, 1, 1, 1);
+    this.geometry = new THREE.BoxGeometry(50, 50, 0.1, 1, 1, 1);
     this.material = new THREE.MeshStandardMaterial({
       side: THREE.DoubleSide,
       color: '#47A992',

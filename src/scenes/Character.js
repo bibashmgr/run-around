@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { Capsule } from 'three/addons/math/Capsule.js';
 
 import Experience from '../Experience.js';
 
@@ -21,8 +20,11 @@ export default class Character {
     this.parameters = {
       currentState: 'idle',
       onFloor: false,
-      velocity: new THREE.Vector3(),
-      direction: new THREE.Vector3(),
+      fadeDuration: 0.2,
+      runVelocity: 5,
+      walkVelocity: 2,
+      rotateAngle: new THREE.Vector3(0, 1, 0),
+      rotateQuarternion: new THREE.Quaternion(),
     };
 
     this.directionKeys = ['KeyW', 'KeyA', 'KeyS', 'KeyD'];
@@ -90,10 +92,61 @@ export default class Character {
 
       this.parameters.currentState = currentState;
 
-      this.animation.actions.current.fadeOut(0.2).play();
+      this.animation.actions.current
+        .fadeOut(this.parameters.fadeDuration)
+        .play();
       this.animation.actions.current = nextAction;
-      this.animation.actions.current.reset().fadeIn(0.2).play();
+      this.animation.actions.current
+        .reset()
+        .fadeIn(this.parameters.fadeDuration)
+        .play();
     }
+
+    if (
+      this.parameters.currentState == 'run' ||
+      this.parameters.currentState == 'walk'
+    ) {
+      let angleYCameraDirection = Math.atan2(
+        this.camera.perspectiveCamera.position.x - this.model.position.x,
+        this.camera.perspectiveCamera.position.z - this.model.position.z
+      );
+      let directionOffset = this.getDirectionOffset(this.keys.states);
+
+      this.parameters.rotateQuarternion.setFromAxisAngle(
+        this.parameters.rotateAngle,
+        angleYCameraDirection + directionOffset
+      );
+      this.model.quaternion.rotateTowards(
+        this.parameters.rotateQuarternion,
+        0.2
+      );
+    }
+  }
+
+  getDirectionOffset(keysPressed) {
+    let directionOffset = Math.PI;
+
+    if (keysPressed['KeyW']) {
+      if (keysPressed['KeyA']) {
+        directionOffset = -Math.PI / 4 - Math.PI / 2;
+      } else if (keysPressed['KeyD']) {
+        directionOffset = Math.PI / 4 + Math.PI / 2;
+      }
+    } else if (keysPressed['KeyS']) {
+      if (keysPressed['KeyA']) {
+        directionOffset = -Math.PI / 4;
+      } else if (keysPressed['KeyD']) {
+        directionOffset = Math.PI / 4;
+      } else {
+        directionOffset = 0; // s
+      }
+    } else if (keysPressed['KeyA']) {
+      directionOffset = -Math.PI / 2;
+    } else if (keysPressed['KeyD']) {
+      directionOffset = Math.PI / 2;
+    }
+
+    return directionOffset;
   }
 
   resize() {}
