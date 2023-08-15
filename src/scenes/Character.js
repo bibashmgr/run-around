@@ -21,10 +21,12 @@ export default class Character {
       currentState: 'idle',
       onFloor: false,
       fadeDuration: 0.2,
-      runVelocity: 5,
       walkVelocity: 2,
+      runVelocity: 4,
       rotateAngle: new THREE.Vector3(0, 1, 0),
       rotateQuarternion: new THREE.Quaternion(),
+      direction: new THREE.Vector3(),
+      cameraTarget: new THREE.Vector3(),
     };
 
     this.directionKeys = ['KeyW', 'KeyA', 'KeyS', 'KeyD'];
@@ -120,33 +122,72 @@ export default class Character {
         this.parameters.rotateQuarternion,
         0.2
       );
+
+      this.camera.perspectiveCamera.getWorldDirection(
+        this.parameters.direction
+      );
+      this.parameters.direction.y = 0;
+      this.parameters.direction.normalize();
+      this.parameters.direction.applyAxisAngle(
+        this.parameters.rotateAngle,
+        directionOffset
+      );
+
+      let velocity =
+        this.parameters.currentState == 'walk'
+          ? this.parameters.walkVelocity
+          : this.parameters.runVelocity;
+
+      let moveX =
+        this.parameters.direction.x * velocity * this.time.delta * 0.001;
+      let moveZ =
+        this.parameters.direction.z * velocity * this.time.delta * 0.001;
+      this.model.position.x += moveX;
+      this.model.position.z += moveZ;
+
+      this.updateCameraTarget(moveX, moveZ);
     }
   }
 
   getDirectionOffset(keysPressed) {
-    let directionOffset = Math.PI;
+    let directionOffset = 0;
 
     if (keysPressed['KeyW']) {
       if (keysPressed['KeyA']) {
-        directionOffset = -Math.PI / 4 - Math.PI / 2;
+        directionOffset = Math.PI / 4;
       } else if (keysPressed['KeyD']) {
-        directionOffset = Math.PI / 4 + Math.PI / 2;
+        directionOffset = -Math.PI / 4;
       }
     } else if (keysPressed['KeyS']) {
       if (keysPressed['KeyA']) {
-        directionOffset = -Math.PI / 4;
+        directionOffset = Math.PI / 4 + Math.PI / 2;
       } else if (keysPressed['KeyD']) {
-        directionOffset = Math.PI / 4;
+        directionOffset = -Math.PI / 4 - Math.PI / 2;
       } else {
-        directionOffset = 0; // s
+        directionOffset = Math.PI; // s
       }
     } else if (keysPressed['KeyA']) {
-      directionOffset = -Math.PI / 2;
-    } else if (keysPressed['KeyD']) {
       directionOffset = Math.PI / 2;
+    } else if (keysPressed['KeyD']) {
+      directionOffset = -Math.PI / 2;
     }
 
     return directionOffset;
+  }
+
+  updateCameraTarget(moveX, moveZ) {
+    this.camera.perspectiveCamera.position.x += moveX;
+    this.camera.perspectiveCamera.position.z += moveZ;
+
+    this.parameters.cameraTarget.x = this.model.position.x;
+    this.parameters.cameraTarget.y = this.model.position.y;
+    this.parameters.cameraTarget.z = this.model.position.z;
+
+    this.camera.orbitControls.target.set(
+      this.parameters.cameraTarget.x,
+      this.parameters.cameraTarget.y,
+      this.parameters.cameraTarget.z
+    );
   }
 
   resize() {}
