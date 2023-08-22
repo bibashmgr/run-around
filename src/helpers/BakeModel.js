@@ -8,7 +8,7 @@ export default class BakeModel {
     this.texture.flipY = false;
     this.texture.colorSpace = THREE.SRGBColorSpace;
 
-    this.material = new THREE.MeshBasicMaterial({
+    this.material = new THREE.MeshStandardMaterial({
       map: this.texture,
     });
 
@@ -20,6 +20,7 @@ export default class BakeModel {
         child.material.map = this.texture;
         child.material = this.material;
         child.castShadow = true;
+        child.receiveShadow = true;
       }
     });
 

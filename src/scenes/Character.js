@@ -21,8 +21,8 @@ export default class Character {
       currentState: 'idle',
       onFloor: false,
       fadeDuration: 0.2,
-      walkVelocity: 2,
-      runVelocity: 4,
+      walkVelocity: 3.5,
+      runVelocity: 7,
       rotateAngle: new THREE.Vector3(0, 1, 0),
       rotateQuarternion: new THREE.Quaternion(),
       direction: new THREE.Vector3(),
@@ -37,7 +37,7 @@ export default class Character {
   }
 
   bakeModel() {
-    this.bakeModel = new BakeModel(this.modelSource, this.textureSource, 0.5);
+    this.bakeModel = new BakeModel(this.modelSource, this.textureSource, 1);
   }
 
   setModel() {

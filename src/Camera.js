@@ -21,10 +21,10 @@ export default class Camera {
       35,
       this.sizes.aspect,
       0.1,
-      1000
+      10000
     );
-    this.perspectiveCamera.position.y = 5;
-    this.perspectiveCamera.position.z = 10;
+    this.perspectiveCamera.position.y = 11;
+    this.perspectiveCamera.position.z = 19;
 
     this.scene.add(this.perspectiveCamera);
   }
@@ -45,10 +45,10 @@ export default class Camera {
   setOrbitControls() {
     this.orbitControls = new OrbitControls(this.perspectiveCamera, this.canvas);
     this.orbitControls.enableDamping = false;
-    this.orbitControls.enableZoom = false;
+    this.orbitControls.enableZoom = true;
     this.orbitControls.enablePan = false;
-    this.orbitControls.enableRotate = false;
-    this.orbitControls.maxPolarAngle = Math.PI;
+    this.orbitControls.enableRotate = true;
+    this.orbitControls.maxPolarAngle = Math.PI / 2.1;
     this.orbitControls.target.set(0, 0, 0);
   }
 

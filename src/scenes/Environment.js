@@ -19,7 +19,7 @@ export default class Environment {
       },
       ambientLight: {
         color: '#ffffff',
-        intensity: 1,
+        intensity: 0.8,
       },
     };
 
