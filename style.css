@@ -9,6 +9,43 @@ body{
     background-color: #000000;
 }
 
+#blocker {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+#instructions {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    text-align: center;
+    font-family: Monospace;
+    cursor: pointer;
+    color: white;
+}
+
+#instructions-title {
+    font-size: 2rem;
+}
+
+#instructions-subtitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    gap: 0.5rem
+}
+
 #experience{
     position: fixed;
     width: 100vw;

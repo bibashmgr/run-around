@@ -1,8 +1,10 @@
 import { Octree } from 'three/addons/math/Octree.js';
+import { OctreeHelper } from 'three/addons/helpers/OctreeHelper.js';
 
 import Experience from '../Experience.js';
 
 // scenes
+import Blocker from './Blocker.js';
 import Environment from './Environment.js';
 import Landscape from './Landscape.js';
 import Character from './Character.js';
@@ -20,6 +22,7 @@ export default class World {
     this.worldOctree = new Octree();
 
     this.resources.on('ready', () => {
+      this.blocker = new Blocker();
       this.environment = new Environment();
       this.landscape = new Landscape();
       this.character = new Character();
@@ -36,6 +39,9 @@ export default class World {
   }
 
   update() {
+    if (this.blocker) {
+      this.blocker.update();
+    }
     if (this.environment) {
       this.environment.update();
     }

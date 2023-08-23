@@ -18,6 +18,7 @@ export default class BakeModel {
       if (child instanceof THREE.Mesh) {
         if (scale) child.scale.set(scale, scale, scale);
         child.material.map = this.texture;
+        child.material.map.anisotropy = 4;
         child.material = this.material;
         child.castShadow = true;
         child.receiveShadow = true;

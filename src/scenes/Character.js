@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { Capsule } from 'three/addons/math/Capsule.js';
 
 import Experience from '../Experience.js';
 
@@ -13,6 +14,7 @@ export default class Character {
     this.scene = this.experience.scene;
     this.resources = this.experience.resources;
     this.camera = this.experience.camera;
+    this.blocker = this.experience.world.blocker;
 
     this.modelSource = this.resources.items.gltfModel.toonCharacterModel;
     this.textureSource = this.resources.items.texture.toonCharacterTexture;
@@ -197,6 +199,8 @@ export default class Character {
       this.animation.mixer.update(this.time.delta * 0.001);
     }
 
-    this.control();
+    if (!this.blocker.isVisible) {
+      this.control();
+    }
   }
 }
