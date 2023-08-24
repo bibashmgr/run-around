@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { Capsule } from 'three/addons/math/Capsule.js';
 
 import Experience from '../Experience.js';
 
