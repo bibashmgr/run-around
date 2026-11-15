@@ -16,6 +16,7 @@ import assets from './constants/assets.js';
 
 // world
 import World from './scenes/World.js';
+import Loader from './scenes/Loader.js';
 
 export default class Experience {
   static instance;
@@ -36,6 +37,7 @@ export default class Experience {
     this.keys = new Keys();
     this.scene = new THREE.Scene();
     this.resources = new Resources(assets);
+    this.loader = new Loader();
     this.camera = new Camera();
     this.renderer = new Renderer();
 

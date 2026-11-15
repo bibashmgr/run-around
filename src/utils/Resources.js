@@ -16,20 +16,37 @@ export default class Resources extends EventEmitter {
     };
     this.queue = this.assets.length;
     this.loaded = 0;
+    this.progress = 0;
 
+    this.setLoadingManager();
     this.setLoaders();
     this.startLoading();
   }
 
+  setLoadingManager() {
+    this.loadingManager = new THREE.LoadingManager();
+
+    // itemsTotal grows as gltf files discover sub-resources, so keep progress monotonic
+    this.loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
+      this.progress = Math.max(this.progress, itemsLoaded / itemsTotal);
+      this.emit('progress', this.progress);
+    };
+    this.loadingManager.onError = (url) => {
+      this.emit('error', url);
+    };
+  }
+
   setLoaders() {
     this.loaders = {};
-    this.loaders.gltfLoader = new GLTFLoader();
-    this.loaders.dracoLoader = new DRACOLoader();
+    this.loaders.gltfLoader = new GLTFLoader(this.loadingManager);
+    this.loaders.dracoLoader = new DRACOLoader(this.loadingManager);
     this.loaders.dracoLoader.setDecoderPath('/draco/');
     this.loaders.gltfLoader.setDRACOLoader(this.loaders.dracoLoader);
 
-    this.loaders.textureLoader = new THREE.TextureLoader();
-    this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader();
+    this.loaders.textureLoader = new THREE.TextureLoader(this.loadingManager);
+    this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader(
+      this.loadingManager
+    );
   }
 
   startLoading() {
